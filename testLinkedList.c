@@ -47,14 +47,57 @@ void printLlist(llist *list)
         return;
     }
     printf("\n[ ");
-    for (int i = 0; length(list); i++)
+    for (int i = 0; i < length(list); i++)
     {
         printf("%d ", nth(list, i));
     }
-    printf(")\n");
+    printf("]\n");
+}
+
+bool getElement(void)
+{
+    llist *one = cons(1, NULL);
+    llist *two_one = cons(2, one);
+    printLlist(one);
+    printLlist(two_one);
+    
+    check((nth(two_one, 0) == 2), "Expecting value at pos 0 to be 2.");
+    check((nth(two_one, 1) == 1), "Expecting value at pos 1 to be 1.");
+    
+    free(one);
+    free(two_one);
+    return true;
+
+fail:
+    free(one);
+    free(two_one);
+    return false;
+}
+
+bool concatenate(void)
+{
+    llist *one = cons(1, NULL);
+    llist *two = cons(2, NULL);
+    llist *one_two = append(one, two);
+    printLlist(one_two);
+    check((nth(one_two, 0) == 1), "Expecting value at pos 0 to be 1.");
+    check((nth(one_two, 1) == 2), "Expecting value at pos 1 to be 2.");
+
+    free(one);
+    free(two);
+    free(one_two);
+    return true;
+
+fail:
+    free(one);
+    free(two);
+    free(one_two);
+    return false;
 }
 
 int main(void)
 {
+    //run_test(getElement);
+    run_test(concatenate);
     return 0;
 }

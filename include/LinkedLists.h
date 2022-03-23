@@ -8,15 +8,17 @@
 /*  Implementation of a type safe, inmutable linked list using macros. */
 #define DECL_LLIST(type)                                                  \
                                                                           \
-    typedef struct                                                        \
+    typedef struct llist llist;                                           \
+                                                                          \
+    struct llist                                                          \
     {                                                                     \
         type element;                                                     \
         llist *rest;                                                      \
-    } llist;                                                              \
+    };                                                                    \
                                                                           \
     llist *cons(type element, llist *rest)                                \
     {                                                                     \
-        llist *new_llist = malloc(sizeof(llist));                         \
+        llist *new_llist = (llist *)malloc(sizeof(llist));                \
         new_llist->element = element;                                     \
         new_llist->rest = rest;                                           \
         return new_llist;                                                 \
