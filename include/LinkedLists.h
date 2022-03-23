@@ -42,7 +42,7 @@
         if (pos == 0)                                                     \
             return list->element;                                         \
         else                                                              \
-            return nth(list->rest, pos - 1);                               \
+            return nth(list->rest, pos - 1);                              \
     }                                                                     \
     llist *insert(llist *list, int pos, type element)                     \
     {                                                                     \
@@ -50,7 +50,6 @@
             return cons(list->element, list->rest);                       \
                                                                           \
         return cons(list->element, insert(list->rest, pos - 1, element)); \
-                                                                          \
     }
 
 #endif
