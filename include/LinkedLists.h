@@ -5,9 +5,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define FREE_COLLECTOR arr[100]
-#define ITEMS_TO_FREE
-
 /*  Implementation of a type safe, inmutable linked list using macros. */
 #define DECL_LLIST(type)                                                       \
                                                                                \
@@ -18,6 +15,8 @@
         type element;                                                          \
         llist *rest;                                                           \
     };                                                                         \
+    llist *history[1000];                                                      \
+    int events = 0;                                                            \
     /*                                                                         \
         Pre: none.                                                             \
         Post: a list with an element and a rest, or null if no available space \
@@ -31,6 +30,8 @@
         {                                                                      \
             new_llist->element = element;                                      \
             new_llist->rest = rest;                                            \
+            history[events] = new_llist;                                       \
+            events++;                                                          \
         }                                                                      \
                                                                                \
         return new_llist;                                                      \
@@ -90,13 +91,42 @@
         Post: a list without the element at position specified.                \
         ejecución amortizada O(1)                                             \
     */                                                                         \
-    llist *remove(llist *list, int pos)                                        \
+    llist *eject(llist *list, int pos)                                         \
     {                                                                          \
         if (pos == 0)                                                          \
         {                                                                      \
             return list->rest;                                                 \
         }                                                                      \
-        return cons(list->element, remove(list->rest, pos - 1));               \
-    }
+        return cons(list->element, eject(list->rest, pos - 1));                \
+    }                                                                          \
+    /*                                                                         \
+        Pre: none                                                              \
+        Post: delete all constructions asociated with the list and             \
+              returns the number deletions.                                    \
+        ejecución amortizada O(1)                                             \
+    */                                                                         \
+    int delete (llist * list)                                                  \
+    {                                                                          \
+        if (list == NULL)                                                      \
+            return 0;                                                          \
+        if (list->rest == NULL)                                                \
+        {                                                                      \
+            printf("%d, ", list->element);                                     \
+            free(list);                                                        \
+            return 1;                                                          \
+        }                                                                      \
+        printf("%d, ", list->element);                                         \
+        llist *target = list->rest;                                            \
+        free(list);                                                            \
+        return 1 + delete (target);                                            \
+    }                                                                           \
+    /* void empty_history()                                                       \
+    {                                                                          \
+        int target = 0;                                                        \
+        while (target != events)                                               \
+        {                                                                      \
+            free(history[target]);                                             \
+        }                                                                      \
+    } */
 
 #endif

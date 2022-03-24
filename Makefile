@@ -7,5 +7,5 @@ testLlist.o: testLinkedList.c include/LinkedLists.h
 testLlist: testLlist.o
 	valgrind --quiet --leak-check=yes ./$<
 
-cleanDynarr:
+cleanLlist:
 	rm testLlist.o

@@ -53,7 +53,24 @@ void printLlist(llist *list)
     }
     printf("]\n");
 }
+bool deleting(void)
+{
+    llist *nums = cons(1, cons(2, cons(3, cons(4, NULL))));
+    printLlist(nums);
+    check((length(nums) == 4), "Expecting to have 4 elements.");
+    //check((delete(nums) == 4), "Expecting to delete 4 elements.");
 
+    llist *palindrome = cons(4, cons(3, cons(2, cons(1, nums))));
+    printLlist(palindrome);
+    check((length(palindrome) == 8), "Expecting to have 8 elements.");
+    check((delete(palindrome) == 8), "Expecting to delete 8 elements.");
+
+    return true;
+
+fail:
+    return false;
+
+}
 bool getElement(void)
 {
     llist *one = cons(1, NULL);
@@ -63,18 +80,19 @@ bool getElement(void)
     
     check((nth(two_one, 0) == 2), "Expecting value at pos 0 to be 2.");
     check((nth(two_one, 1) == 1), "Expecting value at pos 1 to be 1.");
-    
-    free(one);
-    free(two_one);
+
+    //check((delete(two_one) == 2), "Expecting to delete 2 constructions.");
     return true;
 
 fail:
-    free(one);
-    free(two_one);
+   /*  if (two_one != NULL)
+        delete(two_one);
+    if (one != NULL)
+        delete(one); */
     return false;
 }
 
-bool concatenate(void)
+bool appending(void)
 {
     llist *one = cons(1, NULL);
     llist *two = cons(2, NULL);
@@ -83,21 +101,65 @@ bool concatenate(void)
     check((nth(one_two, 0) == 1), "Expecting value at pos 0 to be 1.");
     check((nth(one_two, 1) == 2), "Expecting value at pos 1 to be 2.");
 
-    free(one);
-    free(two);
-    free(one_two);
+    //free(one);
+    //free(two);
+    //free(one_two);
+    //check((delete(one_two) == 2), "Expecting to delete 2 constructions.");
+    //check((delete(one) == 1), "Expecting to delete 1 construction.");
+    //check((delete(two) == 1), "Expecting to delete 1 construction.");
     return true;
 
 fail:
-    free(one);
-    free(two);
-    free(one_two);
+    /* if (one_two != NULL)
+        delete(one_two);
+    else if (one != NULL)
+        delete(one);
+    else if (two != NULL)
+        delete(two); */
     return false;
+}
+
+bool inserting(void)
+{
+    llist *one = cons(1, NULL);
+    llist *three = cons(3, NULL);
+    llist *pair = append(one, three);
+    llist *trio = insert(pair, 0, 2);
+    printLlist(trio);
+    //free(trio);
+
+    trio = insert(pair, 1, 2);
+    printLlist(trio);
+    //free(trio);
+
+    trio = insert(pair, 2, 2);
+    printLlist(trio);
+    
+    /* free(one);
+    free(three);
+    free(pair);
+    free(trio); */
+    return true;
+}
+
+bool ejecting(void)
+{
+    llist *one = cons(1, NULL);
+    llist *two = cons(2, NULL);
+    llist *three = cons(3, NULL);
+    llist *seq = append(one, append(two, three));
+    printLlist(seq);
+    llist *odd = eject(seq, 1);
+    printLlist(odd);
+    return true;
 }
 
 int main(void)
 {
+    //run_test(deleting);
     //run_test(getElement);
-    run_test(concatenate);
+    //run_test(appending);
+    //run_test(inserting);
+    //run_test(ejecting);
     return 0;
 }
