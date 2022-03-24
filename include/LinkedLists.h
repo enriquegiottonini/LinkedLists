@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-/*  Implementation of a type safe, inmutable linked list using macros. */
+/*  Implementation of a type safe, inmutable, persistent,
+    recursive linked list using macros. */
 #define DECL_LLIST(type)                                                       \
                                                                                \
     typedef struct llist llist;                                                \
@@ -15,8 +16,9 @@
         type element;                                                          \
         llist *rest;                                                           \
     };                                                                         \
-    llist *history[1000];                                                      \
-    int events = 0;                                                            \
+                                                                               \
+    llist *heap_register[1024];                                                \
+    int register_size = 0;                                                     \
     /*                                                                         \
         Pre: none.                                                             \
         Post: a list with an element and a rest, or null if no available space \
@@ -26,14 +28,13 @@
     llist *cons(type element, llist *rest)                                     \
     {                                                                          \
         llist *new_llist = (llist *)malloc(sizeof(llist));                     \
-        if (new_llist != NULL)                                                 \
-        {                                                                      \
-            new_llist->element = element;                                      \
-            new_llist->rest = rest;                                            \
-            history[events] = new_llist;                                       \
-            events++;                                                          \
-        }                                                                      \
+        if (new_llist == NULL)                                                 \
+            return NULL;                                                       \
                                                                                \
+        new_llist->element = element;                                          \
+        new_llist->rest = rest;                                                \
+        heap_register[register_size] = new_llist;                              \
+        register_size++;                                                       \
         return new_llist;                                                      \
     }                                                                          \
     /*                                                                         \
@@ -45,8 +46,8 @@
     {                                                                          \
         if (list == NULL)                                                      \
             return 0;                                                          \
-        else                                                                   \
-            return 1 + length(list->rest);                                     \
+                                                                               \
+        return 1 + length(list->rest);                                         \
     }                                                                          \
     /*                                                                         \
         Pre: none.                                                             \
@@ -71,8 +72,8 @@
     {                                                                          \
         if (pos == 0)                                                          \
             return list->element;                                              \
-        else                                                                   \
-            return nth(list->rest, pos - 1);                                   \
+                                                                               \
+        return nth(list->rest, pos - 1);                                       \
     }                                                                          \
     /*                                                                         \
         Pre: 0 <= pos < lentgh(list), list is not null.                        \
@@ -94,39 +95,27 @@
     llist *eject(llist *list, int pos)                                         \
     {                                                                          \
         if (pos == 0)                                                          \
-        {                                                                      \
             return list->rest;                                                 \
-        }                                                                      \
+                                                                               \
         return cons(list->element, eject(list->rest, pos - 1));                \
     }                                                                          \
     /*                                                                         \
-        Pre: none                                                              \
-        Post: delete all constructions asociated with the list and             \
-              returns the number deletions.                                    \
+        Pre: none.                                                             \
+        Post: free all memory allocated with malloc for the construction       \
+              of the lists.                                                    \
         ejecución amortizada O(1)                                             \
     */                                                                         \
-    int delete (llist * list)                                                  \
+    void empty_register(void)                                                  \
     {                                                                          \
-        if (list == NULL)                                                      \
-            return 0;                                                          \
-        if (list->rest == NULL)                                                \
+        register_size--;                                                       \
+        while (register_size > 0)                                              \
         {                                                                      \
-            printf("%d, ", list->element);                                     \
-            free(list);                                                        \
-            return 1;                                                          \
+            if (heap_register[register_size] != NULL)                          \
+                free(heap_register[register_size]);                            \
+            register_size--;                                                   \
         }                                                                      \
-        printf("%d, ", list->element);                                         \
-        llist *target = list->rest;                                            \
-        free(list);                                                            \
-        return 1 + delete (target);                                            \
-    }                                                                           \
-    /* void empty_history()                                                       \
-    {                                                                          \
-        int target = 0;                                                        \
-        while (target != events)                                               \
-        {                                                                      \
-            free(history[target]);                                             \
-        }                                                                      \
-    } */
+        if (heap_register[register_size] != NULL)                              \
+            free(heap_register[register_size]);                                \
+    }
 
 #endif

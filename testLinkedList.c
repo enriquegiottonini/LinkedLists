@@ -58,12 +58,13 @@ bool deleting(void)
     llist *nums = cons(1, cons(2, cons(3, cons(4, NULL))));
     printLlist(nums);
     check((length(nums) == 4), "Expecting to have 4 elements.");
-    //check((delete(nums) == 4), "Expecting to delete 4 elements.");
+    //check((delete(nums) == 2), "Expecting to delete 4 elements.");
 
     llist *palindrome = cons(4, cons(3, cons(2, cons(1, nums))));
     printLlist(palindrome);
     check((length(palindrome) == 8), "Expecting to have 8 elements.");
-    check((delete(palindrome) == 8), "Expecting to delete 8 elements.");
+    /* check((delete(palindrome) == 8), "Expecting to delete 8 elements."); */
+    empty_history();
 
     return true;
 
@@ -126,19 +127,23 @@ bool inserting(void)
     llist *pair = append(one, three);
     llist *trio = insert(pair, 0, 2);
     printLlist(trio);
-    //free(trio);
+    /* free(trio); */
 
     trio = insert(pair, 1, 2);
     printLlist(trio);
-    //free(trio);
+    /* free(trio->rest); // Before trio
+    free(trio); */
 
     trio = insert(pair, 2, 2);
     printLlist(trio);
     
-    /* free(one);
+   /*  free(one);
     free(three);
     free(pair);
+    free(trio->rest->rest); // Before trio
+    free(trio->rest);       // Before trio
     free(trio); */
+    empty_history();
     return true;
 }
 
@@ -159,7 +164,7 @@ int main(void)
     //run_test(deleting);
     //run_test(getElement);
     //run_test(appending);
-    //run_test(inserting);
+    run_test(inserting);
     //run_test(ejecting);
     return 0;
 }
