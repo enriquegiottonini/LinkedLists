@@ -2,7 +2,7 @@
 Pequeña biblioteca de listas ligadas genéricas, inmutables y persistentes con implementación recursiva de tiempo de ejecución amortizado O(1).
 Implementación de Colas y de Pilas usando listas ligadas.
 
-## Autor
+## Autór
 Enrique Alejandro Giottonini Herrera.
 Estructura de Datos.
 LCC.
