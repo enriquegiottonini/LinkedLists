@@ -7,7 +7,7 @@ typedef struct Stack Stack;
 
 /*                                                                              
     Pre: none                                                                   
-    Post: An empty array. NULL if there is no space.                                        
+    Post: An empty stack. NULL if there is no space.                                        
     O(1)                                                   
 */
 Stack *init_stack(void);
@@ -22,7 +22,7 @@ bool empty_stack(Stack *stack);
     Post: size of the stack.                                      
     ejecución amortizada O(1)                                                   
 */
-int size(Stack *stack);
+int size_stack(Stack *stack);
 /*                                                                              
     Pre: valid stack.                                                                   
     Post: the stack has a new top element.                                         

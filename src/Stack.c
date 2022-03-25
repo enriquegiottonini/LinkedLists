@@ -11,11 +11,11 @@ struct Stack
 Stack *init_stack(void)
 {
     Stack *new_stack = malloc(sizeof(Stack));
-    if (new_stack != NULL)
-    {
-        new_stack->top = 0;
-        new_stack->items = NULL;
-    }
+    if (new_stack == NULL)
+        return NULL;
+    
+    new_stack->top = 0;
+    new_stack->items = NULL;
     return new_stack;
 }
 
@@ -24,7 +24,7 @@ bool empty_stack(Stack *stack)
     return (stack->top == 0);
 }
 
-int size(Stack *stack)
+int size_stack(Stack *stack)
 {
     return length(stack->items);
 }

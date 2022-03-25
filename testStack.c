@@ -36,10 +36,10 @@
         goto fail;                                       \
     }
 
-bool empty()
+bool empty(void)
 {
     Stack *stack = init_stack();
-    printStack(stack);
+    //printStack(stack);
     check(stack != NULL, "Expecting enough memory.");
     check(empty_stack(stack), "Expecting an empty stack.")
     
@@ -53,16 +53,16 @@ fail:
     return false;
 }
 
-bool pushing()
+bool pushing(void)
 {
     Stack *stack = init_stack();
-    printStack(stack);
+    //printStack(stack);
 
     push(stack, 1);
     push(stack, 2);
     push(stack, 3);
     check((peek(stack) == 3), "Expecting top element to be 3.");
-    check((size(stack) == 3), "Expecting size to be 3");
+    check((size_stack(stack) == 3), "Expecting size to be 3");
     //printStack(stack);
 
     free(stack);
@@ -75,7 +75,7 @@ fail:
     return false;
 }
  
-bool popping()
+bool popping(void)
 {
     Stack *stack = init_stack();
     check(stack != NULL, "Expecting enough memory.");
@@ -87,12 +87,12 @@ bool popping()
     check((pop(stack) == 3), "Expecting to pop 3.");
 
     check((peek(stack) == 2), "Expecting top element to be 2.");
-    check((size(stack) == 2), "Expecting size to be 2");
+    check((size_stack(stack) == 2), "Expecting size to be 2");
  
     check((pop(stack) == 2), "Expecting to pop 2.");
     check((pop(stack) == 1), "Expecting to pop 1.");
     check(empty_stack(stack), "Expecting an empty stack.")
-    printStack(stack);
+    //printStack(stack);
     
     free(stack);
     free_stacks();

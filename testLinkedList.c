@@ -53,43 +53,41 @@ void printLlist(llist *list)
     }
     printf("]\n");
 }
+
 bool deleting(void)
 {
     llist *nums = cons(1, cons(2, cons(3, cons(4, NULL))));
-    printLlist(nums);
+    //printLlist(nums);
     check((length(nums) == 4), "Expecting to have 4 elements.");
-    //check((delete(nums) == 2), "Expecting to delete 4 elements.");
 
     llist *palindrome = cons(4, cons(3, cons(2, cons(1, nums))));
-    printLlist(palindrome);
+    //printLlist(palindrome);
     check((length(palindrome) == 8), "Expecting to have 8 elements.");
-    /* check((delete(palindrome) == 8), "Expecting to delete 8 elements."); */
-    empty_history();
 
+    empty_register();
     return true;
 
 fail:
+    empty_register();
     return false;
 
 }
+
 bool getElement(void)
 {
     llist *one = cons(1, NULL);
     llist *two_one = cons(2, one);
-    printLlist(one);
-    printLlist(two_one);
+    //printLlist(one);
+    //printLlist(two_one);
     
     check((nth(two_one, 0) == 2), "Expecting value at pos 0 to be 2.");
     check((nth(two_one, 1) == 1), "Expecting value at pos 1 to be 1.");
 
-    //check((delete(two_one) == 2), "Expecting to delete 2 constructions.");
+    empty_register();
     return true;
 
 fail:
-   /*  if (two_one != NULL)
-        delete(two_one);
-    if (one != NULL)
-        delete(one); */
+    empty_register();
     return false;
 }
 
@@ -98,25 +96,15 @@ bool appending(void)
     llist *one = cons(1, NULL);
     llist *two = cons(2, NULL);
     llist *one_two = append(one, two);
-    printLlist(one_two);
+    //printLlist(one_two);
     check((nth(one_two, 0) == 1), "Expecting value at pos 0 to be 1.");
     check((nth(one_two, 1) == 2), "Expecting value at pos 1 to be 2.");
 
-    //free(one);
-    //free(two);
-    //free(one_two);
-    //check((delete(one_two) == 2), "Expecting to delete 2 constructions.");
-    //check((delete(one) == 1), "Expecting to delete 1 construction.");
-    //check((delete(two) == 1), "Expecting to delete 1 construction.");
+    empty_register();
     return true;
 
 fail:
-    /* if (one_two != NULL)
-        delete(one_two);
-    else if (one != NULL)
-        delete(one);
-    else if (two != NULL)
-        delete(two); */
+    empty_register();
     return false;
 }
 
@@ -125,26 +113,25 @@ bool inserting(void)
     llist *one = cons(1, NULL);
     llist *three = cons(3, NULL);
     llist *pair = append(one, three);
+
     llist *trio = insert(pair, 0, 2);
-    printLlist(trio);
-    /* free(trio); */
+    check((nth(trio, 0) == 2), "Expecting an element 2 at pos 0.");
+    //printLlist(trio);
 
     trio = insert(pair, 1, 2);
-    printLlist(trio);
-    /* free(trio->rest); // Before trio
-    free(trio); */
+    check((nth(trio, 1) == 2), "Expecting an element 2 at pos 1.");
+    //printLlist(trio);
 
     trio = insert(pair, 2, 2);
-    printLlist(trio);
+    check((nth(trio, 2) == 2), "Expecting an element 2 at pos 2.");
+    //printLlist(trio);
     
-   /*  free(one);
-    free(three);
-    free(pair);
-    free(trio->rest->rest); // Before trio
-    free(trio->rest);       // Before trio
-    free(trio); */
-    empty_history();
+    empty_register();
     return true;
+
+fail:
+    empty_register();
+    return false;
 }
 
 bool ejecting(void)
@@ -153,18 +140,26 @@ bool ejecting(void)
     llist *two = cons(2, NULL);
     llist *three = cons(3, NULL);
     llist *seq = append(one, append(two, three));
-    printLlist(seq);
+    //printLlist(seq);
+
     llist *odd = eject(seq, 1);
-    printLlist(odd);
+    check((length(odd) == 2), "Expecting a size of two elements after ejecting.");
+    //printLlist(odd);
+
+    empty_register();
     return true;
+
+fail:
+    empty_register();
+    return false;
 }
 
 int main(void)
 {
-    //run_test(deleting);
-    //run_test(getElement);
-    //run_test(appending);
+    run_test(deleting);
+    run_test(getElement);
+    run_test(appending);
     run_test(inserting);
-    //run_test(ejecting);
+    run_test(ejecting);
     return 0;
 }
