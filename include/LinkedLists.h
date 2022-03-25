@@ -25,9 +25,9 @@
               in heap.                                                         \
         O(1)                                                                   \
     */                                                                         \
-    typename *cons(type element, llist *rest)                                     \
+    typename *cons(type element, typename *rest)                                     \
     {                                                                          \
-        llist *new_llist = (llist *)malloc(sizeof(llist));                     \
+        typename *new_llist = (llist *)malloc(sizeof(typename));                     \
         if (new_llist == NULL)                                                 \
             return NULL;                                                       \
                                                                                \
@@ -42,7 +42,7 @@
         Post: number of elements in a list.                                    \
         O(1)                                                                   \
     */                                                                         \
-    int length(llist *list)                                                    \
+    int length(typename *list)                                                    \
     {                                                                          \
         if (list == NULL)                                                      \
             return 0;                                                          \
@@ -54,7 +54,7 @@
         Post: a list from appending two lists argmuents.                       \
         ejecución amortizada O(1)                                             \
     */                                                                         \
-    typename *append(llist *list1, llist *list2)                                  \
+    typename *append(typename *list1, typename *list2)                                  \
     {                                                                          \
         if (list1 == NULL)                                                     \
             return list2;                                                      \
@@ -68,7 +68,7 @@
         Post: the element at position pos from the list.                       \
         ejecución amortizada O(1)                                             \
     */                                                                         \
-    type nth(llist *list, int pos)                                             \
+    type nth(typename *list, int pos)                                             \
     {                                                                          \
         if (pos == 0)                                                          \
             return list->element;                                              \
@@ -80,7 +80,7 @@
         Post: a list with an element inserted at position specified.           \
         ejecución amortizada O(1)                                             \
     */                                                                         \
-    typename *insert(llist *list, int pos, type element)                          \
+    typename *insert(typename *list, int pos, type element)                          \
     {                                                                          \
         if (pos == 0)                                                          \
             return cons(element, list);                                        \
@@ -92,7 +92,7 @@
         Post: a list without the element at position specified.                \
         ejecución amortizada O(1)                                             \
     */                                                                         \
-    typename *eject(llist *list, int pos)                                         \
+    typename *eject(typename *list, int pos)                                         \
     {                                                                          \
         if (pos == 0)                                                          \
             return list->rest;                                                 \
