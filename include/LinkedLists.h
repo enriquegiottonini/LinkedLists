@@ -27,7 +27,7 @@
     */                                                                         \
     typename *cons(type element, typename *rest)                                     \
     {                                                                          \
-        typename *new_llist = (llist *)malloc(sizeof(typename));                     \
+        typename *new_llist = (typename *)malloc(sizeof(typename));                     \
         if (new_llist == NULL)                                                 \
             return NULL;                                                       \
                                                                                \
