@@ -37,7 +37,7 @@
     }
 
 /* Test cases for an integer Dynamic Array. */
-DECL_LLIST(int)
+DECL_LLIST(llist, int)
 
 // Aux
 void printLlist(llist *list)

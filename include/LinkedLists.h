@@ -7,17 +7,17 @@
 
 /*  Implementation of a type safe, inmutable, persistent,
     recursive linked list using macros. */
-#define DECL_LLIST(type)                                                       \
+#define DECL_LLIST(typename, type)                                                       \
                                                                                \
-    typedef struct llist llist;                                                \
+    typedef struct typename typename;                                                \
                                                                                \
-    struct llist                                                               \
+    struct typename                                                               \
     {                                                                          \
         type element;                                                          \
-        llist *rest;                                                           \
+        typename *rest;                                                           \
     };                                                                         \
                                                                                \
-    llist *heap_register[1024];                                                \
+    typename *heap_register[1024];                                                \
     int register_size = 0;                                                     \
     /*                                                                         \
         Pre: none.                                                             \
@@ -25,7 +25,7 @@
               in heap.                                                         \
         O(1)                                                                   \
     */                                                                         \
-    llist *cons(type element, llist *rest)                                     \
+    typename *cons(type element, llist *rest)                                     \
     {                                                                          \
         llist *new_llist = (llist *)malloc(sizeof(llist));                     \
         if (new_llist == NULL)                                                 \
@@ -54,7 +54,7 @@
         Post: a list from appending two lists argmuents.                       \
         ejecución amortizada O(1)                                             \
     */                                                                         \
-    llist *append(llist *list1, llist *list2)                                  \
+    typename *append(llist *list1, llist *list2)                                  \
     {                                                                          \
         if (list1 == NULL)                                                     \
             return list2;                                                      \
@@ -80,7 +80,7 @@
         Post: a list with an element inserted at position specified.           \
         ejecución amortizada O(1)                                             \
     */                                                                         \
-    llist *insert(llist *list, int pos, type element)                          \
+    typename *insert(llist *list, int pos, type element)                          \
     {                                                                          \
         if (pos == 0)                                                          \
             return cons(element, list);                                        \
@@ -92,7 +92,7 @@
         Post: a list without the element at position specified.                \
         ejecución amortizada O(1)                                             \
     */                                                                         \
-    llist *eject(llist *list, int pos)                                         \
+    typename *eject(llist *list, int pos)                                         \
     {                                                                          \
         if (pos == 0)                                                          \
             return list->rest;                                                 \

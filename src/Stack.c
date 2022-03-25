@@ -1,6 +1,6 @@
 #include "Stack.h"
 
-DECL_LLIST(int)
+DECL_LLIST(llist, int)
 
 struct Stack
 {
